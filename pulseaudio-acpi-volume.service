@@ -1,0 +1,13 @@
+[Unit]
+Description=Control PulseAudio volume with ACPI events
+Requisite=pulseaudio.service
+After=pulseaudio.service
+# Also depends on acpid.service, but because that is a system unit and this is a
+# user unit, the dependency cannot be enforced.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/socat UNIX-CLIENT:/run/acpid.socket EXEC:/usr/lib/pulseaudio-acpi-volume/volume-service.sh
+
+[Install]
+WantedBy=default.target
